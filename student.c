@@ -1,30 +1,24 @@
-
 #include <stdio.h>
-#include <string.h>
-
 int main()
 {
-    char ids[100][30];
-    int ages[100];
-
+    int courseCodes[100];
+    int creditHours[100];
     int count = 0;
-    int choice, age, i, j, found;
-    char id[30];
+    int choice, code, credits, i, found;
 
     do
     {
-        printf("\n===== STUDENT MANAGEMENT =====\n");
-        printf("1. Register Student\n");
-        printf("2. View Students\n");
-        printf("3. Search Student\n");
-        printf("4. Update Student Age\n");
-        printf("5. Delete Student\n");
-        printf("6. Exit\n");
+        printf("\n===== COURSE MANAGEMENT =====\n");
+        printf("1. Register Course\n");
+        printf("2. View Courses\n");
+        printf("3. Search Course\n");
+        printf("4. Exit\n");
         printf("Enter choice: ");
+        fflush(stdout);
 
         if (scanf("%d", &choice) != 1)
         {
-            printf("Invalid choice!\n");
+            printf("Invalid input! Enter a number.\n");
             return 0;
         }
 
@@ -33,18 +27,22 @@ int main()
             case 1:
                 if (count >= 100)
                 {
-                    printf("Student limit reached.\n");
+                    printf("Course limit reached.\n");
                     break;
                 }
 
-                printf("Enter student ID: ");
-                scanf("%29s", id);
+                printf("Enter course code (number): ");
+                if (scanf("%d", &code) != 1)
+                {
+                    printf("Invalid course code.\n");
+                    return 0;
+                }
 
                 found = 0;
 
                 for (i = 0; i < count; i++)
                 {
-                    if (strcmp(ids[i], id) == 0)
+                    if (courseCodes[i] == code)
                     {
                         found = 1;
                         break;
@@ -53,142 +51,81 @@ int main()
 
                 if (found == 1)
                 {
-                    printf("This ID already exists.\n");
+                    printf("Course code already exists.\n");
                     break;
                 }
 
-                printf("Enter student age: ");
-
-                if (scanf("%d", &age) != 1)
+                printf("Enter credit hours: ");
+                if (scanf("%d", &credits) != 1)
                 {
-                    printf("Invalid age input.\n");
+                    printf("Invalid credit hours.\n");
                     return 0;
                 }
 
-                if (age <= 0)
+                if (credits <= 0)
                 {
-                    printf("Age must be positive.\n");
+                    printf("Credit hours must be positive.\n");
                     break;
                 }
 
-                strcpy(ids[count], id);
-                ages[count] = age;
+                courseCodes[count] = code;
+                creditHours[count] = credits;
                 count++;
 
-                printf("Student registered successfully!\n");
+                printf("Course registered successfully.\n");
                 break;
 
             case 2:
                 if (count == 0)
                 {
-                    printf("No student records found.\n");
+                    printf("No courses registered.\n");
                 }
                 else
                 {
                     for (i = 0; i < count; i++)
                     {
-                        printf("\nStudent ID: %s\n", ids[i]);
-                        printf("Student Age: %d\n", ages[i]);
+                        printf("\nCourse Code: %d\n", courseCodes[i]);
+                        printf("Credit Hours: %d\n", creditHours[i]);
                     }
                 }
                 break;
 
             case 3:
-                printf("Enter ID to search: ");
-                scanf("%29s", id);
+                printf("Enter course code to search: ");
+                if (scanf("%d", &code) != 1)
+                {
+                    printf("Invalid course code.\n");
+                    return 0;
+                }
 
                 found = 0;
 
                 for (i = 0; i < count; i++)
                 {
-                    if (strcmp(ids[i], id) == 0)
+                    if (courseCodes[i] == code)
                     {
-                        printf("Student found!\n");
-                        printf("ID: %s\n", ids[i]);
-                        printf("Age: %d\n", ages[i]);
+                        printf("Course found!\n");
+                        printf("Course Code: %d\n", courseCodes[i]);
+                        printf("Credit Hours: %d\n", creditHours[i]);
                         found = 1;
                         break;
                     }
                 }
 
                 if (found == 0)
-                    printf("Student not found.\n");
+                    printf("Course not found.\n");
 
                 break;
 
             case 4:
-                printf("Enter ID to update: ");
-                scanf("%29s", id);
-
-                found = 0;
-
-                for (i = 0; i < count; i++)
-                {
-                    if (strcmp(ids[i], id) == 0)
-                    {
-                        printf("Enter new age: ");
-
-                        if (scanf("%d", &age) != 1)
-                        {
-                            printf("Invalid age input.\n");
-                            return 0;
-                        }
-
-                        if (age <= 0)
-                        {
-                            printf("Age must be positive.\n");
-                            break;
-                        }
-
-                        ages[i] = age;
-                        printf("Student updated successfully!\n");
-                        found = 1;
-                        break;
-                    }
-                }
-
-                if (found == 0)
-                    printf("Student not found or age invalid.\n");
-
-                break;
-
-            case 5:
-                printf("Enter ID to delete: ");
-                scanf("%29s", id);
-
-                found = 0;
-
-                for (i = 0; i < count; i++)
-                {
-                    if (strcmp(ids[i], id) == 0)
-                    {
-                        for (j = i; j < count - 1; j++)
-                        {
-                            strcpy(ids[j], ids[j + 1]);
-                            ages[j] = ages[j + 1];
-                        }
-
-                        count--;
-                        found = 1;
-                        printf("Student deleted successfully!\n");
-                        break;
-                    }
-                }
-
-                if (found == 0)
-                    printf("Student not found.\n");
-
-                break;
-
-            case 6:
-                printf("Student menu closed.\n");
+                printf("Course menu closed.\n");
                 break;
 
             default:
-                printf("Invalid choice! Enter 1 to 6.\n");
+                printf("Invalid choice! Enter 1 to 4.\n");
         }
 
-    } while (choice != 6);
+    } while (choice != 4);
 
     return 0;
 }
